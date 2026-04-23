@@ -1,0 +1,14 @@
+theme: jekyll-theme-cayman
+title: Мультиагенты Интенсив — Урок 1
+description: AI-Секретарь от нуля. 24 шага копипаст-гайда с готовыми шаблонами.
+show_downloads: true
+google_analytics:
+plugins:
+  - jemoji
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  hard_wrap: false
+include:
+  - templates
