@@ -145,6 +145,16 @@ claude login
 
 </details>
 
+**📸 Как это выглядит на эфире:**
+
+![settings.json с defaultMode: bypassPermissions](./screenshots/01-bypass-permissions-settings.jpg)
+*VSCode с открытым `~/.claude/settings.json`. Видно ключ `defaultMode: bypassPermissions` и списки allow/deny. Эфир 00:21:19.*
+
+После сохранения — **⌘+Shift+P → Reload Window**. Без reload режим не включится:
+
+![Reload Window после BP](./screenshots/02-reload-window.jpg)
+*Эфир 00:33:27.*
+
 ---
 
 ## Блок 1 — Папка проекта
@@ -190,6 +200,17 @@ claude
 **Проверка:** `/help` → должны быть `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:subagent-driven-development`.
 
 `/exit`
+
+**📸 Как это выглядит:**
+
+![Manage Plugins меню](./screenshots/04-plugins-menu.jpg)
+*Меню `/plugins` открыто справа. Сюда добавляем `obra/superpowers`. Эфир 01:13:57.*
+
+![Установка Superpowers](./screenshots/05-install-superpowers.jpg)
+*Процесс установки плагина. Эфир 01:14:25.*
+
+![Slash-команды появились](./screenshots/06-slash-commands.jpg)
+*После установки `/help` показывает ~20 команд с префиксом `superpowers:`. Эфир 01:14:44.*
 
 ---
 
@@ -297,6 +318,17 @@ claude
 
 **📄 [examples/docs/superpowers/specs/2026-04-21-ai-secretary-design.md](./examples/docs/superpowers/specs/2026-04-21-ai-secretary-design.md)** (27 КБ, с архитектурной диаграммой, таблицей решений, политикой подтверждений)
 
+**📸 Как это выглядит:**
+
+![Объяснение brainstorm workflow](./screenshots/03-brainstorm-intro.jpg)
+*Никита объясняет цикл: Instructions → brainstorm → spec → plan. Эфир 01:04:43.*
+
+![Запуск /brainstorm](./screenshots/07-run-brainstorm.jpg)
+*Команда `/brainstorm @Instructions.md` запущена. Эфир 01:15:44.*
+
+![Brainstorm задаёт вопросы](./screenshots/08-brainstorm-questions.jpg)
+*Superpowers генерирует уточняющие вопросы — отвечаешь, чтобы получить точную спеку. Эфир 01:38:41.*
+
 **⚠️ НЕ переходи дальше, если спека тебе не нравится.** Попроси brainstorm отредактировать или запусти заново.
 
 ---
@@ -342,6 +374,14 @@ Task 8: Smoke test
 
 **📄 [examples/docs/superpowers/plans/2026-04-21-ai-secretary-implementation.md](./examples/docs/superpowers/plans/2026-04-21-ai-secretary-implementation.md)** (69 КБ, каждый task с детальными шагами, critical files, verification)
 
+**📸 Как это выглядит:**
+
+![Переход от спеки к плану](./screenshots/10-spec-to-plan.jpg)
+*Никита показывает переход: большую спеку не реализуешь за раз, нужен план с tasks. Эфир 02:44:05.*
+
+![Сгенерированный план](./screenshots/09-plan-generated.jpg)
+*План готов — каждый task это отдельная подзадача. Эфир 02:27:11.*
+
 ---
 
 ## Блок 6 — `/subagent-driven-development` → агенты
@@ -376,6 +416,11 @@ Task 8: Smoke test
 **Посмотри, как выглядит результат генерации** (твой реальный):
 
 **📁 [templates/](./templates/)** — полный набор: CLAUDE.md, 4 агента, artifacts.md, settings
+
+**📸 Как это выглядит на эфире:**
+
+![.claude/agents/ создан автоматически](./screenshots/11-agents-folder-created.jpg)
+*Superpowers сам создал папку `.claude/agents/` с 4 файлами — ты не писал их руками. Слева в Explorer VSCode видно структуру. Эфир 02:52:27.*
 
 **Проверка:**
 
@@ -465,6 +510,17 @@ VSCode → `⌘+Shift+P` → `Developer: Reload Window`.
 3. lawyer задаёт уточнения
 4. После ответов — договор в Google Docs
 5. URL в `artifacts.md`
+
+**📸 Как это выглядит на эфире:**
+
+![Живой боевой запрос](./screenshots/12-crane-request.jpg)
+*Координатор принимает запрос, в контексте — `CLAUDE.md` и вся агентная система. Эфир 03:03:29.*
+
+![Sub-agent ресёрчер параллельно](./screenshots/13-subagent-researcher.jpg)
+*Researcher запущен в параллельном окне — собирает рыночный контекст, пока lawyer уточняет детали сделки у пользователя. Эфир 03:04:23.*
+
+![Договор готов — 20 разделов](./screenshots/14-contract-ready.jpg)
+*Результат: полный договор на 18–35 страниц, 20 разделов, 20+ параметров учтено. Сохранён в Google Docs. Эфир 03:20:44.*
 
 ---
 
