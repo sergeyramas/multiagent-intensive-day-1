@@ -101,7 +101,8 @@ a.zoomable:hover img {
 - [Блок 6. `/subagent-driven-development` → агенты (Шаг 14)](#блок-6--subagent-driven-development--агенты)
 - [Блок 7. MCP Google Workspace (Шаги 15–17)](#блок-7--mcp-google-workspace)
 - [Блок 8. Проверка системы (Шаги 18–22)](#блок-8--проверка-системы)
-- [Блок 9. Сдача домашки (Шаги 23–24)](#блок-9--сдача-домашки)
+- [Блок 9. VPS + Telegram (Шаги 23–29)](#блок-9--vps--telegram)
+- [Блок 10. Сдача домашки (Шаги 30–31)](#блок-10--сдача-домашки)
 - [Частые проблемы](#частые-проблемы)
 
 ---
@@ -577,9 +578,198 @@ VSCode → `⌘+Shift+P` → `Developer: Reload Window`.
 
 ---
 
-## Блок 9 — Сдача домашки
+## Блок 9 — VPS + Telegram
 
-### Шаг 23. Скринкаст 5–10 мин
+> Последний час эфира (с [▶️ 03:30:34](https://youtu.be/t3O2n0umOHQ?t=12634s)): Никита закидывает готовую агентную систему на VPS, ставит туда Claude Code, привязывает Telegram-бот. Результат — управляешь агентами с телефона.
+
+### Шаг 23. Зачем VPS + Telegram
+
+Локально система работает только пока открыт твой компьютер. Перенос на VPS даёт:
+
+- 24/7 доступность (твой ноут может быть выключен)
+- Общение с агентами через Telegram с любого устройства
+- Возможность отдать доступ команде
+
+<a href="./screenshots/15-vps-intro.jpg" class="zoomable"><img src="./screenshots/15-vps-intro.jpg" alt="Задача: перенести на VPS" loading="lazy"></a>
+
+*Никита объясняет задачу и зачем это нужно. [▶️ Эфир 03:30:34](https://youtu.be/t3O2n0umOHQ?t=12634s).*
+
+---
+
+### Шаг 24. Купи VPS (НЕ российский)
+
+**⚠️ Важно:** российский VPS не подойдёт — Claude Code с него не работает (Anthropic блокирует RU-IP).
+
+Никита показал список из `Information.md` (рекомендации курса):
+
+- **ISHosting** — глобальные локации, тест 7 дней
+- **Aeza** (не российский биллинг) — Ryzen 9
+- **4VPS**, **FastFox**, **Fornex** (Европа/США)
+- Цены от **~477 ₽/мес**
+
+Купи VPS: 2+ GB RAM, Ubuntu 22.04+, Debian 12+. Сохрани **IP адрес** и **пароль root**.
+
+<a href="./screenshots/16-vps-provider.jpg" class="zoomable"><img src="./screenshots/16-vps-provider.jpg" alt="Список VPS-провайдеров" loading="lazy"></a>
+
+*Список провайдеров из Information.md. [▶️ Эфир 03:33:42](https://youtu.be/t3O2n0umOHQ?t=12822s).*
+
+---
+
+### Шаг 25. Подключись по SSH
+
+**Вариант А — терминал (macOS/Linux):**
+
+```bash
+ssh root@<IP_сервера>
+# введи пароль
+```
+
+**Вариант Б — GUI-клиент:**
+
+- **macOS:** [Termius](https://termius.com) или [Remmina](https://remmina.org)
+- **Windows:** PuTTY, MobaXterm, Termius
+- Удобно: список серверов с сохранёнными паролями
+
+Никита использовал Remmina (Remote Desktop Manager):
+
+<a href="./screenshots/17-server-explorer.jpg" class="zoomable"><img src="./screenshots/17-server-explorer.jpg" alt="SSH-клиент со списком серверов" loading="lazy"></a>
+
+*SSH-клиент с сохранёнными серверами. [▶️ Эфир 03:36:13](https://youtu.be/t3O2n0umOHQ?t=13003s).*
+
+После ввода пароля — ты на сервере:
+
+<a href="./screenshots/18-server-filesystem.jpg" class="zoomable"><img src="./screenshots/18-server-filesystem.jpg" alt="Файловая система VPS" loading="lazy"></a>
+
+*Ты внутри сервера, можешь смотреть его файловую систему. [▶️ Эфир 03:39:02](https://youtu.be/t3O2n0umOHQ?t=13142s).*
+
+---
+
+### Шаг 26. Создай отдельного пользователя
+
+Работать под `root` — небезопасно. Создай обычного пользователя:
+
+```bash
+adduser sergey
+usermod -aG sudo sergey
+su - sergey
+```
+
+Теперь все команды — под `sergey`, а не `root`.
+
+---
+
+### Шаг 27. Установи Claude Code на VPS
+
+На VPS Claude Code ещё нет — ставим:
+
+```bash
+# Node.js (если нет)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+sudo apt install -y nodejs
+
+# Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+
+# Авторизация
+claude login
+```
+
+OAuth-ссылка появится в терминале — откроешь в браузере **на своём компьютере**, введёшь код, вернёшься в VPS-терминал.
+
+<a href="./screenshots/19-install-claude-on-vps.jpg" class="zoomable"><img src="./screenshots/19-install-claude-on-vps.jpg" alt="Установка Claude Code на VPS" loading="lazy"></a>
+
+*Установка Claude Code на сервере. [▶️ Эфир 03:46:03](https://youtu.be/t3O2n0umOHQ?t=13563s).*
+
+---
+
+### Шаг 28. Загрузи проект на VPS
+
+Два способа:
+
+**Способ А — через Git (рекомендую):**
+
+```bash
+cd ~
+git clone https://github.com/твой-юзер/твой-проект.git
+cd твой-проект
+```
+
+<a href="./screenshots/20-github-clone-link.jpg" class="zoomable"><img src="./screenshots/20-github-clone-link.jpg" alt="Git-ссылка для клона" loading="lazy"></a>
+
+*Берём HTTPS-ссылку из GitHub, делаем `git clone` на сервере. [▶️ Эфир 03:50:03](https://youtu.be/t3O2n0umOHQ?t=13803s).*
+
+**Способ Б — drag-and-drop через Finder (macOS):**
+
+1. Finder → `⌘+K` (Connect to Server)
+2. Адрес: `sftp://sergey@IP` → Connect → введи пароль
+3. В Finder появится окно сервера
+4. Перетащи папку проекта **прямо с компьютера** в открытое окно сервера
+
+<a href="./screenshots/22-drag-drop-project.jpg" class="zoomable"><img src="./screenshots/22-drag-drop-project.jpg" alt="Drag-and-drop папки проекта на VPS" loading="lazy"></a>
+
+*Никита перетаскивает папку `Day 1` в `projects/` на сервере. [▶️ Эфир 03:56:21](https://youtu.be/t3O2n0umOHQ?t=14181s).*
+
+---
+
+### Шаг 29. Привяжи Telegram-бот
+
+На эфире Никита показал **кастомный бот практикума** — его файлы раздаст в канале ближе к концу курса.
+
+**Общая схема:**
+
+```
+Telegram ↔ твой бот на VPS ↔ Claude Code ↔ агенты → артефакты
+```
+
+**Шаги:**
+
+1. **Создай бота** через `@BotFather` в Telegram → получи `BOT_TOKEN`
+2. **Загрузи код бота** на VPS (файлы из раздачи или свой)
+3. **Настрой токен** в `.env` или конфиге бота:
+   ```bash
+   echo "BOT_TOKEN=123456:ABC..." > .env
+   echo "USER_ID=твой_telegram_id" >> .env
+   ```
+4. **Установи зависимости и запусти**:
+   ```bash
+   npm install
+   npm start
+   # Или через systemd/pm2 для автозапуска при перезагрузке:
+   pm2 start npm --name "ai-bot" -- start
+   pm2 save
+   pm2 startup
+   ```
+5. Открой бота в Telegram, `/start` — он подхватит твой `USER_ID` и даст доступ.
+
+<a href="./screenshots/21-telegram-working.jpg" class="zoomable"><img src="./screenshots/21-telegram-working.jpg" alt="Telegram-бот запускает агентов" loading="lazy"></a>
+
+*Telegram слева, терминал VPS справа — бот принимает команды и запускает агентов через Claude Code. [▶️ Эфир 03:52:11](https://youtu.be/t3O2n0umOHQ?t=13931s).*
+
+**Как пользоваться:**
+
+- Пишешь в Telegram → координатор на VPS принимает → роутит агента → результат шлёт обратно
+- `/clear` — очистить контекст сессии
+- `/status` — проверить, что процесс жив
+- Команды на запуск конкретных агентов (например, `/lawyer`, `/finance`) — если настроены
+
+---
+
+### Частые проблемы на VPS
+
+| Симптом | Решение |
+|---|---|
+| `claude login` ошибка «не тот регион» | Российский IP — смени VPS на европейский/американский |
+| Claude Code ставится, но `npm install` падает | Node.js слишком старый — `nvm install 20` |
+| Бот запустился, но молчит на сообщения | Не совпадает `USER_ID` в .env и твой ID в Telegram |
+| Процесс умирает после `exit` из SSH | Нужен pm2/systemd/nohup — SSH-сессия не должна держать процесс |
+| MCP Google не работает на VPS | OAuth не проходил — сделай `gcloud auth` заново на сервере |
+| Нет прав на файлы проекта | `chown -R sergey:sergey ~/проект` |
+
+---
+
+## Блок 10 — Сдача домашки
+
+### Шаг 30. Скринкаст 5–10 мин
 
 Показать:
 1. `docs/Instructions.md` — твоё ТЗ
@@ -593,7 +783,7 @@ VSCode → `⌘+Shift+P` → `Developer: Reload Window`.
 
 ---
 
-### Шаг 24. Бот практикума
+### Шаг 31. Бот практикума
 
 Ссылка появится в канале. Видео + описание + опц. ссылка на GitHub-репо.
 
