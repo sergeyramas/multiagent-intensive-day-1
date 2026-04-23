@@ -1,3 +1,36 @@
+<style>
+/* Click-to-zoom: картинки увеличиваются при hover и открывают fullsize при клике.
+   Работает на GitHub Pages. GitHub.com README не выполняет <style>, но <a href> всё равно даёт open-fullsize.
+*/
+a.zoomable { display: inline-block; line-height: 0; }
+a.zoomable img {
+  max-width: 100%;
+  border: 1px solid #eaecef;
+  border-radius: 6px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: zoom-in;
+}
+a.zoomable:hover img {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.youtube-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1rem 0 2rem;
+}
+.youtube-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+</style>
+
 # 🎓 Мультиагенты Интенсив — Урок 1: AI-Секретарь через Superpowers
 
 > **Правильный процесс эфира:** пишешь вольное ТЗ → `/brainstorm` → `/writing-plans` → `/subagent-driven-development` → система **сама** генерирует агентов. Не копипаст, а полный workflow.
@@ -6,6 +39,16 @@
 [![Superpowers](https://img.shields.io/badge/framework-Superpowers-0EA5E9?style=flat-square)](https://github.com/obra/superpowers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/site-GitHub_Pages-222?style=flat-square)](https://sergeyramas.github.io/multiagent-intensive-day-1/)
+
+## 🎥 Запись эфира — 4 часа практики
+
+<div class="youtube-embed">
+<iframe src="https://www.youtube.com/embed/t3O2n0umOHQ" title="День 1 — Мультиагенты Интенсив — AI-Секретарь" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
+[![Watch on YouTube](https://img.youtube.com/vi/t3O2n0umOHQ/maxresdefault.jpg)](https://youtu.be/t3O2n0umOHQ)
+
+*👆 Кликни thumbnail или открой напрямую: https://youtu.be/t3O2n0umOHQ — весь эфир с живой сборкой системы. Таймкоды под скриншотами в каждом шаге ведут на соответствующий момент эфира.*
 
 ## ⚠️ Два правила, которые нельзя нарушать
 
@@ -147,13 +190,13 @@ claude login
 
 **📸 Как это выглядит на эфире:**
 
-![settings.json с defaultMode: bypassPermissions](./screenshots/01-bypass-permissions-settings.jpg)
-*VSCode с открытым `~/.claude/settings.json`. Видно ключ `defaultMode: bypassPermissions` и списки allow/deny. Эфир 00:21:19.*
+<a href="./screenshots/01-bypass-permissions-settings.jpg" class="zoomable"><img src="./screenshots/01-bypass-permissions-settings.jpg" alt="settings.json с defaultMode: bypassPermissions" loading="lazy"></a>
+*VSCode с открытым `~/.claude/settings.json`. Видно ключ `defaultMode: bypassPermissions` и списки allow/deny. [▶️ Эфир 00:21:19](https://youtu.be/t3O2n0umOHQ?t=1279s).*
 
 После сохранения — **⌘+Shift+P → Reload Window**. Без reload режим не включится:
 
-![Reload Window после BP](./screenshots/02-reload-window.jpg)
-*Эфир 00:33:27.*
+<a href="./screenshots/02-reload-window.jpg" class="zoomable"><img src="./screenshots/02-reload-window.jpg" alt="Reload Window после BP" loading="lazy"></a>
+*[▶️ Эфир 00:33:27](https://youtu.be/t3O2n0umOHQ?t=2007s).*
 
 ---
 
@@ -203,14 +246,14 @@ claude
 
 **📸 Как это выглядит:**
 
-![Manage Plugins меню](./screenshots/04-plugins-menu.jpg)
-*Меню `/plugins` открыто справа. Сюда добавляем `obra/superpowers`. Эфир 01:13:57.*
+<a href="./screenshots/04-plugins-menu.jpg" class="zoomable"><img src="./screenshots/04-plugins-menu.jpg" alt="Manage Plugins меню" loading="lazy"></a>
+*Меню `/plugins` открыто справа. Сюда добавляем `obra/superpowers`. [▶️ Эфир 01:13:57](https://youtu.be/t3O2n0umOHQ?t=4437s).*
 
-![Установка Superpowers](./screenshots/05-install-superpowers.jpg)
-*Процесс установки плагина. Эфир 01:14:25.*
+<a href="./screenshots/05-install-superpowers.jpg" class="zoomable"><img src="./screenshots/05-install-superpowers.jpg" alt="Установка Superpowers" loading="lazy"></a>
+*Процесс установки плагина. [▶️ Эфир 01:14:25](https://youtu.be/t3O2n0umOHQ?t=4465s).*
 
-![Slash-команды появились](./screenshots/06-slash-commands.jpg)
-*После установки `/help` показывает ~20 команд с префиксом `superpowers:`. Эфир 01:14:44.*
+<a href="./screenshots/06-slash-commands.jpg" class="zoomable"><img src="./screenshots/06-slash-commands.jpg" alt="Slash-команды появились" loading="lazy"></a>
+*После установки `/help` показывает ~20 команд с префиксом `superpowers:`. [▶️ Эфир 01:14:44](https://youtu.be/t3O2n0umOHQ?t=4484s).*
 
 ---
 
@@ -320,14 +363,14 @@ claude
 
 **📸 Как это выглядит:**
 
-![Объяснение brainstorm workflow](./screenshots/03-brainstorm-intro.jpg)
-*Никита объясняет цикл: Instructions → brainstorm → spec → plan. Эфир 01:04:43.*
+<a href="./screenshots/03-brainstorm-intro.jpg" class="zoomable"><img src="./screenshots/03-brainstorm-intro.jpg" alt="Объяснение brainstorm workflow" loading="lazy"></a>
+*Никита объясняет цикл: Instructions → brainstorm → spec → plan. [▶️ Эфир 01:04:43](https://youtu.be/t3O2n0umOHQ?t=3883s).*
 
-![Запуск /brainstorm](./screenshots/07-run-brainstorm.jpg)
-*Команда `/brainstorm @Instructions.md` запущена. Эфир 01:15:44.*
+<a href="./screenshots/07-run-brainstorm.jpg" class="zoomable"><img src="./screenshots/07-run-brainstorm.jpg" alt="Запуск /brainstorm" loading="lazy"></a>
+*Команда `/brainstorm @Instructions.md` запущена. [▶️ Эфир 01:15:44](https://youtu.be/t3O2n0umOHQ?t=4544s).*
 
-![Brainstorm задаёт вопросы](./screenshots/08-brainstorm-questions.jpg)
-*Superpowers генерирует уточняющие вопросы — отвечаешь, чтобы получить точную спеку. Эфир 01:38:41.*
+<a href="./screenshots/08-brainstorm-questions.jpg" class="zoomable"><img src="./screenshots/08-brainstorm-questions.jpg" alt="Brainstorm задаёт вопросы" loading="lazy"></a>
+*Superpowers генерирует уточняющие вопросы — отвечаешь, чтобы получить точную спеку. [▶️ Эфир 01:38:41](https://youtu.be/t3O2n0umOHQ?t=5921s).*
 
 **⚠️ НЕ переходи дальше, если спека тебе не нравится.** Попроси brainstorm отредактировать или запусти заново.
 
@@ -376,11 +419,11 @@ Task 8: Smoke test
 
 **📸 Как это выглядит:**
 
-![Переход от спеки к плану](./screenshots/10-spec-to-plan.jpg)
-*Никита показывает переход: большую спеку не реализуешь за раз, нужен план с tasks. Эфир 02:44:05.*
+<a href="./screenshots/10-spec-to-plan.jpg" class="zoomable"><img src="./screenshots/10-spec-to-plan.jpg" alt="Переход от спеки к плану" loading="lazy"></a>
+*Никита показывает переход: большую спеку не реализуешь за раз, нужен план с tasks. [▶️ Эфир 02:44:05](https://youtu.be/t3O2n0umOHQ?t=9845s).*
 
-![Сгенерированный план](./screenshots/09-plan-generated.jpg)
-*План готов — каждый task это отдельная подзадача. Эфир 02:27:11.*
+<a href="./screenshots/09-plan-generated.jpg" class="zoomable"><img src="./screenshots/09-plan-generated.jpg" alt="Сгенерированный план" loading="lazy"></a>
+*План готов — каждый task это отдельная подзадача. [▶️ Эфир 02:27:11](https://youtu.be/t3O2n0umOHQ?t=8831s).*
 
 ---
 
@@ -419,8 +462,8 @@ Task 8: Smoke test
 
 **📸 Как это выглядит на эфире:**
 
-![.claude/agents/ создан автоматически](./screenshots/11-agents-folder-created.jpg)
-*Superpowers сам создал папку `.claude/agents/` с 4 файлами — ты не писал их руками. Слева в Explorer VSCode видно структуру. Эфир 02:52:27.*
+<a href="./screenshots/11-agents-folder-created.jpg" class="zoomable"><img src="./screenshots/11-agents-folder-created.jpg" alt=".claude/agents/ создан автоматически" loading="lazy"></a>
+*Superpowers сам создал папку `.claude/agents/` с 4 файлами — ты не писал их руками. Слева в Explorer VSCode видно структуру. [▶️ Эфир 02:52:27](https://youtu.be/t3O2n0umOHQ?t=10347s).*
 
 **Проверка:**
 
@@ -513,14 +556,14 @@ VSCode → `⌘+Shift+P` → `Developer: Reload Window`.
 
 **📸 Как это выглядит на эфире:**
 
-![Живой боевой запрос](./screenshots/12-crane-request.jpg)
-*Координатор принимает запрос, в контексте — `CLAUDE.md` и вся агентная система. Эфир 03:03:29.*
+<a href="./screenshots/12-crane-request.jpg" class="zoomable"><img src="./screenshots/12-crane-request.jpg" alt="Живой боевой запрос" loading="lazy"></a>
+*Координатор принимает запрос, в контексте — `CLAUDE.md` и вся агентная система. [▶️ Эфир 03:03:29](https://youtu.be/t3O2n0umOHQ?t=11009s).*
 
-![Sub-agent ресёрчер параллельно](./screenshots/13-subagent-researcher.jpg)
-*Researcher запущен в параллельном окне — собирает рыночный контекст, пока lawyer уточняет детали сделки у пользователя. Эфир 03:04:23.*
+<a href="./screenshots/13-subagent-researcher.jpg" class="zoomable"><img src="./screenshots/13-subagent-researcher.jpg" alt="Sub-agent ресёрчер параллельно" loading="lazy"></a>
+*Researcher запущен в параллельном окне — собирает рыночный контекст, пока lawyer уточняет детали сделки у пользователя. [▶️ Эфир 03:04:23](https://youtu.be/t3O2n0umOHQ?t=11063s).*
 
-![Договор готов — 20 разделов](./screenshots/14-contract-ready.jpg)
-*Результат: полный договор на 18–35 страниц, 20 разделов, 20+ параметров учтено. Сохранён в Google Docs. Эфир 03:20:44.*
+<a href="./screenshots/14-contract-ready.jpg" class="zoomable"><img src="./screenshots/14-contract-ready.jpg" alt="Договор готов — 20 разделов" loading="lazy"></a>
+*Результат: полный договор на 18–35 страниц, 20 разделов, 20+ параметров учтено. Сохранён в Google Docs. [▶️ Эфир 03:20:44](https://youtu.be/t3O2n0umOHQ?t=12044s).*
 
 ---
 
